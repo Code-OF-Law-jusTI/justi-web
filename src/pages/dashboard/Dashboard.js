@@ -95,8 +95,8 @@ export default function Dashboard(props) {
       subArea: "dpvat",
       leis: [
         {
-          leiAplicada: lei,
-          numeroArtigo: artigo,
+          leiAplicada: "",
+          numeroArtigo: "",
         },
       ],
       conjuntoPalavras: ["Processo", "publicação", "Movimento"],
@@ -105,8 +105,8 @@ export default function Dashboard(props) {
       .post("/", {
         data,
       })
-      .then(function() {
-        console.log("sucesso");
+      .then(function(res) {
+        console.log("sucesso", res);
       })
       .catch(function(error) {
         console.log("error", error.message);
