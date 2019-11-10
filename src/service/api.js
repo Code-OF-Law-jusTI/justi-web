@@ -1,5 +1,8 @@
-// import axios from "axios";
+import axios from "axios";
 
-// const api = axios.create({
-//   baseURL: "",
-// });
+const api = axios.create({
+  baseURL:
+    "http://node-express-hacka-oab.qqrskdn5hc.sa-east-1.elasticbeanstalk.com/process_batch",
+});
+
+export default api;

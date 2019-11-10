@@ -7,6 +7,7 @@ import Layout from "./Layout";
 // pages
 import Error from "../pages/error";
 import Login from "../pages/login";
+import ListCard from "../pages/list";
 
 // context
 import { useUserState } from "../context/UserContext";
@@ -24,8 +25,10 @@ export default function App() {
           path="/app"
           render={() => <Redirect to="/app/dashboard" />}
         />
+        <Route exact path="/list" render={() => <Redirect to="/app/list" />} />
         <PrivateRoute path="/app" component={Layout} />
         <PublicRoute path="/login" component={Login} />
+        <PublicRoute path="/list" component={ListCard} />
         <Route component={Error} />
       </Switch>
     </HashRouter>

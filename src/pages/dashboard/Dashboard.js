@@ -4,6 +4,8 @@ import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import { Grid, LinearProgress, Select, MenuItem } from "@material-ui/core";
 import { useTheme } from "@material-ui/styles";
+
+import api from "../../service/api";
 // styles
 import useStyles from "./styles";
 // components
@@ -23,7 +25,7 @@ import FormControl from "@material-ui/core/FormControl";
 import { width } from "@material-ui/system";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import logo from "../../../src/images/files.gif";
+import logo from "../../../src/images/files2.gif";
 import Checkbox from "@material-ui/core/Checkbox";
 import { ButtonGroup } from "@material-ui/core";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
@@ -46,6 +48,7 @@ export default function Dashboard(props) {
     checkedB: false,
     checkedC: false,
     checkedD: false,
+    checkedN: false,
   });
   const [state1, setState1] = useState({
     checkedE: false,
@@ -85,15 +88,61 @@ export default function Dashboard(props) {
     return setPalavra(event.target.value);
   }
 
-  function handleKeyDown(e) {
-    if (e.key === "Enter") {
-      console.log("do validate");
-    }
+  function postData(event) {
+    event.preventDefault();
+    const data = {
+      areaAtuacao: category === 10 ? "Direito Civil" : null,
+      subArea: "dpvat",
+      leis: [
+        {
+          leiAplicada: lei,
+          numeroArtigo: artigo,
+        },
+      ],
+      conjuntoPalavras: ["Processo", "publicação", "Movimento"],
+    };
+    api
+      .post("/", {
+        data,
+      })
+      .then(function() {
+        console.log("sucesso");
+      })
+      .catch(function(error) {
+        console.log("error", error.message);
+      });
   }
 
   return (
     <>
-      <ExpansionPanel defaultExpanded>
+      <div
+        className="section-img"
+        style={{
+          width: "100%",
+          // display: "flex",
+          alignSelf: "center",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          display: "none",
+        }}
+      >
+        <img src={logo} height="25%" width="25%" />
+        <p
+          style={{
+            color: "#210B2C",
+          }}
+        >
+          Efetuando analise, aguarde...
+        </p>
+      </div>
+
+      <ExpansionPanel
+        defaultExpanded
+        style={{
+          padding: "20",
+        }}
+      >
         <ExpansionPanelActions
           style={{
             display: "flex",
@@ -104,243 +153,231 @@ export default function Dashboard(props) {
             Busque em justTI
           </Typography>
         </ExpansionPanelActions>
-        <Grid
-          container
-          spacing={3}
-          style={{
-            height: "400px",
-            padding: "20px",
-          }}
-        >
-          <Grid item xs={4}>
-            <div>
-              <FormControl
-                className={classes.formControl}
-                style={{
-                  "margin-bottom": "20px",
-                }}
-              >
-                <InputLabel id="demo-simple-select-filled-label">
-                  Areas de Pesquisa
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-filled-label"
-                  id="demo-simple-select-filled"
-                  value={category}
-                  onChange={handleChange}
-                  style={{
-                    width: "200px",
-                  }}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Direito Civil</MenuItem>
-                  <MenuItem value={20}>Direito Ambiental</MenuItem>
-                  <MenuItem value={30}>Direito Empresarial</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-
-            {category === 10 && (
+        <form onSubmit={postData}>
+          <Grid
+            container
+            spacing={3}
+            style={{
+              height: "auto !important",
+              padding: "20px",
+            }}
+          >
+            <Grid item xs={4}>
               <div>
-                <FormGroup
-                  row
+                <FormControl
+                  className={classes.formControl}
                   style={{
-                    display: "flex",
-                    flexDirection: "column",
+                    "margin-bottom": "20px",
                   }}
                 >
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={state.checkedA}
-                        onChange={handleChangeCheck("checkedA")}
-                        color="primary"
-                      />
-                    }
-                    label="Indenizações"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={state.checkedB}
-                        onChange={handleChangeCheck("checkedB")}
-                        value="checkedB"
-                        color="primary"
-                      />
-                    }
-                    label="Código de Proteção e Defesa do Consumidor"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={state.checkedC}
-                        onChange={handleChangeCheck("checkedC")}
-                        value="checkedC"
-                        color="primary"
-                      />
-                    }
-                    label="Assessoria, elaboração, revisão"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={state.checkedD}
-                        onChange={handleChangeCheck("checkedD")}
-                        value="checkedD"
-                        color="primary"
-                      />
-                    }
-                    label="Ajuizamento e defesa em ações de cobranças;
+                  <InputLabel id="demo-simple-select-filled-label">
+                    Areas de Pesquisa
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-filled-label"
+                    id="demo-simple-select-filled"
+                    value={category}
+                    onChange={handleChange}
+                    style={{
+                      width: "200px",
+                    }}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={10}>Direito Civil</MenuItem>
+                    <MenuItem value={20}>Direito Ambiental</MenuItem>
+                    <MenuItem value={30}>Direito Empresarial</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+
+              {category === 10 && (
+                <div>
+                  <FormGroup
+                    row
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedA}
+                          onChange={handleChangeCheck("checkedA")}
+                          color="primary"
+                        />
+                      }
+                      label="Indenizações"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedB}
+                          onChange={handleChangeCheck("checkedB")}
+                          value="checkedB"
+                          color="primary"
+                        />
+                      }
+                      label="Código de Proteção e Defesa do Consumidor"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedN}
+                          onChange={handleChangeCheck("checkedN")}
+                          value="checkedN"
+                          color="primary"
+                        />
+                      }
+                      label="Habeaus Corpus"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedC}
+                          onChange={handleChangeCheck("checkedC")}
+                          value="checkedC"
+                          color="primary"
+                        />
+                      }
+                      label="Assessoria, elaboração, revisão"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedD}
+                          onChange={handleChangeCheck("checkedD")}
+                          value="checkedD"
+                          color="primary"
+                        />
+                      }
+                      label="Ajuizamento e defesa em ações de cobranças;
 "
-                  />
-                </FormGroup>
-              </div>
-            )}
+                    />
+                  </FormGroup>
+                </div>
+              )}
 
-            {/* CERTIFICACAO AMBIENTAL */}
+              {/* CERTIFICACAO AMBIENTAL */}
 
-            {category === 20 && (
-              <div>
-                <FormGroup
-                  row
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={state.checkedE}
-                        onChange={handleChangeCheck("checkedE")}
-                        color="primary"
-                      />
-                    }
-                    label="Consultoria jurídica"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={state.checkedF}
-                        onChange={handleChangeCheck("checkedF")}
-                        value="checkedF"
-                        color="primary"
-                      />
-                    }
-                    label="Legislação ambiental"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={state.checkedG}
-                        onChange={handleChangeCheck("checkedG")}
-                        value="checkedG"
-                        color="primary"
-                      />
-                    }
-                    label="Licenciamento ambiental"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={state.checkedH}
-                        onChange={handleChangeCheck("checkedH")}
-                        value="checkedH"
-                        color="primary"
-                      />
-                    }
-                    label="Certificação ambiental"
-                  />
-                </FormGroup>
-              </div>
-            )}
+              {category === 20 && (
+                <div>
+                  <FormGroup
+                    row
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedE}
+                          onChange={handleChangeCheck("checkedE")}
+                          color="primary"
+                        />
+                      }
+                      label="Consultoria jurídica"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedF}
+                          onChange={handleChangeCheck("checkedF")}
+                          value="checkedF"
+                          color="primary"
+                        />
+                      }
+                      label="Legislação ambiental"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedG}
+                          onChange={handleChangeCheck("checkedG")}
+                          value="checkedG"
+                          color="primary"
+                        />
+                      }
+                      label="Licenciamento ambiental"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedH}
+                          onChange={handleChangeCheck("checkedH")}
+                          value="checkedH"
+                          color="primary"
+                        />
+                      }
+                      label="Certificação ambiental"
+                    />
+                  </FormGroup>
+                </div>
+              )}
 
-            {/* DIREITO EMPRESARIAL */}
+              {/* DIREITO EMPRESARIAL */}
 
-            {category === 30 && (
-              <div>
-                <FormGroup
-                  row
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={state.checkedI}
-                        onChange={handleChangeCheck("checkedI")}
-                        color="primary"
-                      />
-                    }
-                    label="Registro de patentes e marcas;"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={state.checkedJ}
-                        onChange={handleChangeCheck("checkedJ")}
-                        value="checkedJ"
-                        color="primary"
-                      />
-                    }
-                    label="Recuperação judicial e extrajudicial;"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={state.checkedL}
-                        onChange={handleChangeCheck("checkedL")}
-                        value="checkedL"
-                        color="primary"
-                      />
-                    }
-                    label="Análise e desenvolvimento de novos contratos"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={state.checkedM}
-                        onChange={handleChangeCheck("checkedM")}
-                        value="checkedM"
-                        color="primary"
-                      />
-                    }
-                    label="Assessoria ambiental"
-                  />
-                </FormGroup>
-              </div>
-            )}
-          </Grid>
-          <Grid xs={4}>
-            {/* <img src={logo} alt="loading" height="90%" width="100%" /> */}
-            <FormControl
-              className={classes.formControl}
-              style={{
-                marginRight: 50,
-              }}
-            >
-              <InputLabel htmlFor="component-simple">Numero da Lei</InputLabel>
-              <Input id="lei" value={lei} onChange={changeSetLei} />
-            </FormControl>
-            <br />
-            <FormControl
-              className={classes.formControl}
-              style={{
-                marginRight: 50,
-              }}
-            >
-              <InputLabel htmlFor="component-simple">
-                Numero do Artigo
-              </InputLabel>
-              <Input id="artigo" value={artigo} onChange={changeArtigo} />
-            </FormControl>
-            <br />
-            <br />
-            <div className="divWords">
+              {category === 30 && (
+                <div>
+                  <FormGroup
+                    row
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedI}
+                          onChange={handleChangeCheck("checkedI")}
+                          color="primary"
+                        />
+                      }
+                      label="Registro de patentes e marcas;"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedJ}
+                          onChange={handleChangeCheck("checkedJ")}
+                          value="checkedJ"
+                          color="primary"
+                        />
+                      }
+                      label="Recuperação judicial e extrajudicial;"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedL}
+                          onChange={handleChangeCheck("checkedL")}
+                          value="checkedL"
+                          color="primary"
+                        />
+                      }
+                      label="Análise e desenvolvimento de novos contratos"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedM}
+                          onChange={handleChangeCheck("checkedM")}
+                          value="checkedM"
+                          color="primary"
+                        />
+                      }
+                      label="Assessoria ambiental"
+                    />
+                  </FormGroup>
+                </div>
+              )}
+            </Grid>
+            <Grid xs={4}>
+              {/* <img src={logo} alt="loading" height="90%" width="100%" /> */}
               <FormControl
                 className={classes.formControl}
                 style={{
@@ -348,50 +385,78 @@ export default function Dashboard(props) {
                 }}
               >
                 <InputLabel htmlFor="component-simple">
-                  Informe ate 3 palavras
+                  Numero da Lei
                 </InputLabel>
-                <Input id="palavra" value={palavra} onChange={addWordToArray} />
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  size="small"
-                  aria-label="small outlined button group"
-                  className={classes.button}
-                  style={{
-                    marginTop: "10px",
-                    backgroundColor: "#55286f",
-                    color: "#FFF",
-                  }}
-                  onSubmit={addWordToArray}
-                >
-                  Add
-                </Button>
+                <Input id="lei" value={lei} onChange={changeSetLei} />
               </FormControl>
-            </div>
+              <br />
+              <FormControl
+                className={classes.formControl}
+                style={{
+                  marginRight: 50,
+                }}
+              >
+                <InputLabel htmlFor="component-simple">
+                  Numero do Artigo
+                </InputLabel>
+                <Input id="artigo" value={artigo} onChange={changeArtigo} />
+              </FormControl>
+              <br />
+              <br />
+              <div className="divWords">
+                <FormControl
+                  className={classes.formControl}
+                  style={{
+                    marginRight: 50,
+                  }}
+                >
+                  <InputLabel htmlFor="component-simple">
+                    Informe ate 3 palavras
+                  </InputLabel>
+                  <Input
+                    id="palavra"
+                    value={palavra}
+                    onChange={addWordToArray}
+                  />
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    aria-label="small outlined button group"
+                    className={classes.button}
+                    style={{
+                      marginTop: "10px",
+                      backgroundColor: "#55286f",
+                      color: "#FFF",
+                    }}
+                  >
+                    Add
+                  </Button>
+                </FormControl>
+              </div>
 
-            <div>
-              <br />
-              <span>Palavras selecionadas</span>
-              <br />
-              {palavra}
-            </div>
+              <div>
+                <br />
+                <span>Palavras selecionadas</span>
+                <br />
+                {palavra}
+              </div>
+            </Grid>
           </Grid>
-        </Grid>
-        <Divider />
-        <ExpansionPanelActions>
-          <Button size="small">Cancel</Button>
           <Button
+            type="submit"
             size="small"
             color="primary"
             className={classes.button}
             style={{
               backgroundColor: "#55286f",
               color: "#FFF",
+              float: "right",
             }}
           >
             Efetuar Busca
           </Button>
-        </ExpansionPanelActions>
+        </form>
       </ExpansionPanel>
     </>
   );
