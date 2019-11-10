@@ -93,7 +93,7 @@ export default function Dashboard(props) {
 
   function postData(event) {
     const data = {
-      areaAtuacao: category === 10 ? "Direito Civil" : null,
+      areaAtuacao: "Direito Civil",
       subArea: "dpvat",
       leis: [
         {
@@ -104,17 +104,11 @@ export default function Dashboard(props) {
       conjuntoPalavras: ["Processo", "publicação", "Movimento"],
     };
 
-    const headers = {
-      Accept: "application/json",
-      "Content-type": "application/json",
-    };
-
     // history.push("/list");
     changeScreen();
     api
-      .post("/", {
+      .post("process_batch", {
         data,
-        headers,
       })
       .then(function(res) {
         console.log("sucesso", res);
@@ -443,6 +437,34 @@ export default function Dashboard(props) {
                     onChange={addWordToArray}
                   />
                   <Button
+                    onClick={() => {
+                      const data = {
+                        areaAtuacao: "Direito Civil",
+                        subArea: "dpvat",
+                        leis: [
+                          {
+                            leiAplicada: "",
+                            numeroArtigo: "",
+                          },
+                        ],
+                        conjuntoPalavras: [
+                          "Processo",
+                          "publicação",
+                          "Movimento",
+                        ],
+                      };
+
+                      api
+                        .post("process_batch", {
+                          data,
+                        })
+                        .then(function(res) {
+                          console.log("sucesso", res);
+                        })
+                        .catch(function(error) {
+                          console.log("error", error.message);
+                        });
+                    }}
                     variant="contained"
                     color="secondary"
                     size="small"
