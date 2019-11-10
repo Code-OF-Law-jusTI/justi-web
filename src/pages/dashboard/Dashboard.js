@@ -32,6 +32,9 @@ import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
+import { createBrowserHistory } from "history";
+
+import history from "history";
 
 import Input from "@material-ui/core/Input";
 
@@ -89,7 +92,6 @@ export default function Dashboard(props) {
   }
 
   function postData(event) {
-    event.preventDefault();
     const data = {
       areaAtuacao: category === 10 ? "Direito Civil" : null,
       subArea: "dpvat",
@@ -101,9 +103,18 @@ export default function Dashboard(props) {
       ],
       conjuntoPalavras: ["Processo", "publicação", "Movimento"],
     };
+
+    const headers = {
+      Accept: "application/json",
+      "Content-type": "application/json",
+    };
+
+    // history.push("/list");
+    changeScreen();
     api
       .post("/", {
         data,
+        headers,
       })
       .then(function(res) {
         console.log("sucesso", res);
@@ -113,13 +124,25 @@ export default function Dashboard(props) {
       });
   }
 
+  function changeScreen() {
+    const painel = document.querySelector("#presentation-panel");
+    const panelLoading = document.querySelector(".section-img");
+    setTimeout(() => {
+      painel.style.display = "none";
+      panelLoading.style.display = "flex";
+    }, 1000);
+
+    setTimeout(() => {
+      window.location.href = "#app/list";
+    }, 5000);
+  }
+
   return (
     <>
       <div
         className="section-img"
         style={{
           width: "100%",
-          // display: "flex",
           alignSelf: "center",
           alignItems: "center",
           justifyContent: "center",
@@ -142,6 +165,7 @@ export default function Dashboard(props) {
         style={{
           padding: "20",
         }}
+        id="presentation-panel"
       >
         <ExpansionPanelActions
           style={{
@@ -429,6 +453,7 @@ export default function Dashboard(props) {
                       backgroundColor: "#55286f",
                       color: "#FFF",
                     }}
+                    // eslint-disable-next-line no-undef
                   >
                     Add
                   </Button>
@@ -445,16 +470,17 @@ export default function Dashboard(props) {
           </Grid>
           <Button
             type="submit"
-            size="small"
             color="primary"
             className={classes.button}
             style={{
               backgroundColor: "#55286f",
               color: "#FFF",
               float: "right",
+              marginBottom: 10,
+              marginRight: 10,
             }}
           >
-            Efetuar Busca
+            EFETUAR ANALISE{" "}
           </Button>
         </form>
       </ExpansionPanel>

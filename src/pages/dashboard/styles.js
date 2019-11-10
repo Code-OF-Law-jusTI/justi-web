@@ -112,4 +112,10 @@ export default makeStyles(theme => ({
     fontSize: "18px !important",
     marginLeft: theme.spacing(1),
   },
+  hideContainer: {
+    display: "none",
+  },
+  showContainer: {
+    display: "flex",
+  },
 }));
