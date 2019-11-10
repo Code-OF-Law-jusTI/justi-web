@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/styles";
+import { irBlack } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 export default makeStyles(theme => ({
   container: {
@@ -12,7 +13,7 @@ export default makeStyles(theme => ({
     left: 0,
   },
   logotypeContainer: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: "#D8B4E2",
     width: "60%",
     height: "100%",
     display: "flex",
@@ -38,6 +39,9 @@ export default makeStyles(theme => ({
       fontSize: 48,
     },
   },
+  titleLogo: {
+    color: "#55286F"
+  },
   formContainer: {
     width: "40%",
     height: "100%",
@@ -55,6 +59,7 @@ export default makeStyles(theme => ({
   tab: {
     fontWeight: 400,
     fontSize: 18,
+    color: "#55286F"
   },
   greeting: {
     fontWeight: 500,

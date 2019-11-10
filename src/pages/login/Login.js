@@ -39,33 +39,31 @@ function Login(props) {
   return (
     <Grid container className={classes.container}>
       <div className={classes.logotypeContainer}>
-        <img src={logo} alt="logo" className={classes.logotypeImage} />
-        <Typography className={classes.logotypeText}>Material Admin</Typography>
+        {/* <img src={logo} alt="logo" className={classes.logotypeImage} /> */}
+        <Typography className={classes.logotypeText}>Jus<label className={classes.titleLogo}>TI</label></Typography>
       </div>
       <div className={classes.formContainer}>
         <div className={classes.form}>
           <Tabs
             value={activeTabId}
             onChange={(e, id) => setActiveTabId(id)}
-            indicatorColor="primary"
-            textColor="primary"
+            indicatorColor="#55286F"
+            textColor="#55286F"
             centered
           >
-            <Tab label="Login" classes={{ root: classes.tab }} />
-            <Tab label="New User" classes={{ root: classes.tab }} />
           </Tabs>
           {activeTabId === 0 && (
             <React.Fragment>
               <Typography variant="h1" className={classes.greeting}>
-                Good Morning, User
+            Entrar
               </Typography>
               <Button size="large" className={classes.googleButton}>
                 <img src={google} alt="google" className={classes.googleIcon} />
-                &nbsp;Sign in with Google
+                &nbsp;Entrar com Google 
               </Button>
               <div className={classes.formDividerContainer}>
                 <div className={classes.formDivider} />
-                <Typography className={classes.formDividerWord}>or</Typography>
+                <Typography className={classes.formDividerWord}>ou</Typography>
                 <div className={classes.formDivider} />
               </div>
               <Fade in={error}>
@@ -84,7 +82,7 @@ function Login(props) {
                 value={loginValue}
                 onChange={e => setLoginValue(e.target.value)}
                 margin="normal"
-                placeholder="Email Adress"
+                placeholder="Email"
                 type="email"
                 fullWidth
               />
@@ -99,7 +97,7 @@ function Login(props) {
                 value={passwordValue}
                 onChange={e => setPasswordValue(e.target.value)}
                 margin="normal"
-                placeholder="Password"
+                placeholder="Senha"
                 type="password"
                 fullWidth
               />
@@ -122,33 +120,30 @@ function Login(props) {
                       )
                     }
                     variant="contained"
-                    color="primary"
+                    color="#55286F"
                     size="large"
                   >
-                    Login
+                    Entrar
                   </Button>
                 )}
                 <Button
-                  color="primary"
+                  color="#55286F"
                   size="large"
                   className={classes.forgetButton}
                 >
-                  Forget Password
+                  Esqueci minha senha 
                 </Button>
               </div>
             </React.Fragment>
           )}
           {activeTabId === 1 && (
             <React.Fragment>
-              <Typography variant="h1" className={classes.greeting}>
-                Welcome!
-              </Typography>
               <Typography variant="h2" className={classes.subGreeting}>
-                Create your account
+                Crie sua conta!
               </Typography>
               <Fade in={error}>
                 <Typography color="secondary" className={classes.errorMessage}>
-                  Something is wrong with your login or password :(
+                  Algo está errado com seu login ou senha :(
                 </Typography>
               </Fade>
               <TextField
@@ -162,7 +157,7 @@ function Login(props) {
                 value={nameValue}
                 onChange={e => setNameValue(e.target.value)}
                 margin="normal"
-                placeholder="Full Name"
+                placeholder="Nome Completo"
                 type="email"
                 fullWidth
               />
@@ -222,13 +217,13 @@ function Login(props) {
                     fullWidth
                     className={classes.createAccountButton}
                   >
-                    Create your account
+                    Crie sua Conta
                   </Button>
                 )}
               </div>
               <div className={classes.formDividerContainer}>
                 <div className={classes.formDivider} />
-                <Typography className={classes.formDividerWord}>or</Typography>
+                <Typography className={classes.formDividerWord}>Ou</Typography>
                 <div className={classes.formDivider} />
               </div>
               <Button
@@ -239,14 +234,11 @@ function Login(props) {
                 )}
               >
                 <img src={google} alt="google" className={classes.googleIcon} />
-                &nbsp;Sign in with Google
+                &nbsp;Entrar com o Google
               </Button>
             </React.Fragment>
           )}
         </div>
-        <Typography color="primary" className={classes.copyright}>
-          © 2014-2019 Flatlogic, LLC. All rights reserved.
-        </Typography>
       </div>
     </Grid>
   );
