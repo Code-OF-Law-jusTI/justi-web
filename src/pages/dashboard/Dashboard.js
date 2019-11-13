@@ -168,7 +168,7 @@ export default function Dashboard(props) {
           }}
         >
           <Typography variant="h2" gutterBottom>
-            Busque em justTI
+            Busca qualificada
           </Typography>
         </ExpansionPanelActions>
         <form onSubmit={postData}>

@@ -16,7 +16,7 @@ import classnames from "classnames";
 import useStyles from "./styles";
 
 // logo
-import logo from "./logo.svg";
+import logo from "../../images/justi.png";
 import google from "../../images/google.svg";
 
 // context
@@ -39,8 +39,10 @@ function Login(props) {
   return (
     <Grid container className={classes.container}>
       <div className={classes.logotypeContainer}>
-        {/* <img src={logo} alt="logo" className={classes.logotypeImage} /> */}
-        <Typography className={classes.logotypeText}>Jus<label className={classes.titleLogo}>TI</label></Typography>
+        <img src={logo} alt="logo" className={classes.logotypeImage} />
+        {/* <Typography className={classes.logotypeText}>
+          Jus<label className={classes.titleLogo}>TI</label>
+        </Typography> */}
       </div>
       <div className={classes.formContainer}>
         <div className={classes.form}>
@@ -50,16 +52,15 @@ function Login(props) {
             indicatorColor="#55286F"
             textColor="#55286F"
             centered
-          >
-          </Tabs>
+          ></Tabs>
           {activeTabId === 0 && (
             <React.Fragment>
               <Typography variant="h1" className={classes.greeting}>
-            Entrar
+                Entrar
               </Typography>
               <Button size="large" className={classes.googleButton}>
                 <img src={google} alt="google" className={classes.googleIcon} />
-                &nbsp;Entrar com Google 
+                &nbsp;Entrar com Google
               </Button>
               <div className={classes.formDividerContainer}>
                 <div className={classes.formDivider} />
@@ -131,7 +132,7 @@ function Login(props) {
                   size="large"
                   className={classes.forgetButton}
                 >
-                  Esqueci minha senha 
+                  Esqueci minha senha
                 </Button>
               </div>
             </React.Fragment>

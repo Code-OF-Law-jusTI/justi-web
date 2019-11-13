@@ -24,6 +24,7 @@ import classNames from "classnames";
 import { Badge, Typography } from "../Wrappers";
 import Notification from "../Notification";
 import UserAvatar from "../UserAvatar";
+import logo from "../../images/justi.png";
 
 const messages = [
   {
@@ -103,9 +104,10 @@ const Header = ({ classes, isSidebarOpened, toggleSidebar, ...props }) => (
           />
         )}
       </IconButton>
-      <Typography variant="h6" weight="medium" className={classes.logotype}>
+      {/* <Typography variant="h6" weight="medium" className={classes.logotype}>
         jusTI
-      </Typography>
+      </Typography> */}
+      <img src={logo} alt="logo" />
       <div className={classes.grow} />
       <div
         className={classNames(classes.search, {
